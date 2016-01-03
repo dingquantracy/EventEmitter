@@ -1,0 +1,65 @@
+<html>
+	<head>
+		<script src='./EventEmitter.js'></script>
+	</head>
+	
+
+	<body>
+	
+
+	<script>
+
+		var eventEmitter = new EventEmitter();
+
+
+
+		eventEmitter.on('hello', function(rs){
+			console.log(rs);
+		});
+
+		eventEmitter.fire('hello', {
+			name: 'niuniu',
+			age: 25
+		});
+
+
+
+		var obj = {};
+
+		eventEmitter.inject(obj);
+
+		obj.on('ok', function(rs){
+			console.log('ok');
+			console.log(rs);
+		});
+
+		obj.once('once', function(rs){
+			console.log(rs);
+		});
+
+
+		obj.fire('ok', 'hahahaha...1');
+		obj.fire('ok', 'hahahaha...2');
+		
+		obj.fire('once', 'once...1');
+		obj.fire('once', 'once...2');
+
+
+
+		function Car() {
+
+		}
+		eventEmitter.inject(Car);
+		var car = new Car();
+
+		car.on('sold', function(){
+			console.log('all sold!!!');
+		});
+
+
+		car.fire('sold');
+
+	</script>
+	</body>
+
+</html>
