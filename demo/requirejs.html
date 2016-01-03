@@ -1,0 +1,60 @@
+<html>
+	
+<body>
+
+	<button id='btn'>sell my car</button>
+
+	<script src='http://apps.bdimg.com/libs/require.js/2.1.9/require.min.js'></script>
+
+	<script>
+		define('car', ['../EventEmitter'], function(emitter){
+
+			function Car(color, price){
+
+				var self = this;
+
+				this.color = color;
+				this.price = price;
+
+				this.once('sold', function(){
+					alert('The ' + self.color + ' car has been sold at price of ' + self.price);
+				});
+			};
+				
+			var e = new emitter();
+
+			e.inject(Car);
+
+			Car.prototype.sell = function(){
+
+				this.fire('sold');
+
+			};
+
+			return Car;
+		});
+
+
+		require(['car'], function(car){
+
+			var mycar = new car('balck', 80000);
+
+			function sellCar(no){
+				eval(('car'+no).sell());
+			}
+
+
+			var btn = document.querySelector('#btn');
+			btn.addEventListener('click', function(){
+				mycar.sell();
+				console.log(this);
+				this.parentNode.removeChild(this);
+
+				document.write('sold out!!!');
+			});
+
+		});
+	</script>
+</body>
+
+</html>

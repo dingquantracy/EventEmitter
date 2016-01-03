@@ -1,0 +1,32 @@
+<html>
+<head>
+	<script src='../EventEmitter.js'></script>
+	<script>
+		var myEmitter = EventEmitter.noConflict();
+	</script>
+</head>	
+
+<body>
+
+	<button onclick='clickme();'>click to fire the event!</button>
+
+	<script>
+		var EventEmitter = 'This is original EventEmitter! Just a string.';
+
+		var emitter  = new myEmitter();
+
+		emitter.on('hello', function(){
+			alert('You just click');
+
+			alert(EventEmitter);
+
+		});
+
+		function clickme(){
+
+			emitter.fire('hello');
+		}
+
+	</script>
+</body>
+</html>

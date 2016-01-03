@@ -1,13 +1,14 @@
 /**
  * 简易事件发射器
  */
-;(function(){
+;(function(win){
 
 	'use strict';
 
 	function EventEmitter(){}
 
 	var proto = EventEmitter.prototype;
+	var oldEventEmitter = win.EventEmitter;
 
 	var type = Object.prototype.toString;
 	var slice = Array.prototype.slice;
@@ -123,7 +124,26 @@
 		}
 	};
 
+	/**
+	 * 静态方法noConflict, 保留全局原有的EventEmitter变量
+	 * 
+	 * @return {function} 返回构造函数
+	 */
+    EventEmitter.noConflict = function(){
+        
+    	win.EventEmitter = oldEventEmitter;
+        return EventEmitter;
 
-	window.EventEmitter = EventEmitter;
+    };
 
-})();
+    
+    if (typeof define === 'function' && define.amd) {
+        define(function () {
+            return EventEmitter;
+        });
+    }else{
+		win.EventEmitter = EventEmitter;
+    }
+
+
+})(window);
